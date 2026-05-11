@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AI 智能駕駛學院 - 自動循線中控台</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .card { border: 1px solid #ccc; padding: 15px; margin: 10px; border-radius: 8px; display: inline-block; vertical-align: top; width: 45%; }
+        .active { background-color: #ff9800; color: white; }
+        button { padding: 10px; margin: 5px; cursor: pointer; }
+        input[type="number"] { width: 60px; }
+    </style>
+</head>
+<body>
+    <div class="header"><h1>🚗 AI 智能駕駛學院</h1></div>
+    <div class="container">
+        <div class="card">
+            <h3>1. YOLOv8 物件辨識</h3>
+            <img src="{{ url_for('video_feed') }}" width="100%">
+        </div>
+
+        <div class="card">
+            <h3>2. 鏡頭角度控制 (Servo)</h3>
+            <button onclick="controlServo('up')">↑ 上</button><br>
+            <button onclick="controlServo('left')">← 左</button>
+            <button onclick="controlServo('home')">🏠 回中</button>
+            <button onclick="controlServo('right')">右 →</button><br>
+            <button onclick="controlServo('down')">↓ 下</button>
+        </div>
+
+        <div class="card">
+            <h3>3. 駕駛模式與手動控制</h3>
+            <div style="margin-bottom: 15px;">
+                <button onclick="setParam('mode', 'manual')" id="btn-manual" class="active">手動模式</button>
+                <button onclick="setParam('mode', 'auto')" id="btn-auto">自動循線模式</button>
+            </div>
+            <button onclick="move('forward')">前進</button><br>
+            <button onclick="move('left')">左轉</button>
+            <button onclick="move('stop')">停止</button>
+            <button onclick="move('right')">右轉</button><br>
+            <button onclick="move('reverse')">後退</button>
+        </div>
+
+        <div class="card">
+            <h3>4. 自動循線參數 (PID)</h3>
+            <div id="lane_status">偏差量：0px</div>
+            <hr>
+            <p>基礎速度: <input type="range" min="0" max="100" value="35" onchange="setParam('speed', this.value)"></p>
+            <p>Kp (比例): <input type="number" step="0.05" value="0.35" onchange="setParam('kp', this.value)"></p>
+            <p>Kd (微分): <input type="number" step="0.01" value="0.18" onchange="setParam('kd', this.value)"></p>
+            <p>Ki (積分): <input type="number" step="0.01" value="0.00" onchange="setParam('ki', this.value)"></p>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
